@@ -24,9 +24,9 @@
 
                         <div class="col-md-5 center-item">
                            <div class="input-group number-spinner">
-                              <button id="btn-minus-1" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                              <button onclick="decreasing('input-1', 1219, 'price-1');" class="btn btn-default"><i class="fas fa-minus"></i></button>
                               <input id="input-1" type="text" class="form-control text-center" value="1">
-                              <button id="btn-plus-1" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                              <button onclick="increasing('input-1', 1219, 'price-1');" class="btn btn-default"><i class="fas fa-plus"></i></button>
                            </div>
                            <h5>$ <span id="price-1">1219</span></h5>
                            <img src="images/remove.png" alt="" class="remove-item">
@@ -42,9 +42,9 @@
                         </div>
                         <div class="col-md-5 center-item">
                            <div class="input-group number-spinner">
-                              <button id="btn-minus-2" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                              <button onclick="decreasing('input-2', 59, 'price-2');" id="btn-minus-2" class="btn btn-default"><i class="fas fa-minus"></i></button>
                               <input id="input-2" type="text" class="form-control text-center" value="1">
-                              <button id="btn-plus-2" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                              <button onclick="increasing('input-2', 59, 'price-2');" id="btn-plus-2" class="btn btn-default"><i class="fas fa-plus"></i></button>
                            </div>
                            <h5>$ <span id="price-2">59</span></h5>
                            <img src="images/remove.png" alt="" class="remove-item">
@@ -77,53 +77,39 @@
       </section>
 
       <script>
-         const btnPlus1 = document.getElementById('btn-plus-1');
-         const btnMinus1 = document.getElementById('btn-minus-1');
-         const btnPlus2 = document.getElementById('btn-plus-2');
-         const btnMinus2 = document.getElementById('btn-minus-2');
          const mainTax = 15;
 
-         function increasing(button) {
-            const inputNumber = button.parentNode.querySelector('input');
-            const price = button.parentNode.parentNode.querySelector('h5 span').innerText;
-            const priceInput = button.parentNode.parentNode.querySelector('h5 span');
-            // enterEvent(inputNumber, button);
-            button.addEventListener('click', function () {
-               inputNumber.value++;
-               calcSinglePrice(inputNumber, price, priceInput);
-            })
+         function increasing(inputNumber, price, priceInput) {
+            const inputField = document.getElementById(inputNumber);
+            inputField.value++;
+            calcSinglePrice(inputNumber, price, priceInput);
          }
 
-         function decreasing(button) {
-            const inputNumber = button.parentNode.querySelector('input');
-            const price = button.parentNode.parentNode.querySelector('h5 span').innerText;
-            const priceInput = button.parentNode.parentNode.querySelector('h5 span');
-            // enterEvent(inputNumber, button);
-            button.addEventListener('click', function () {
-               if (inputNumber.value > 0) {
-                  inputNumber.value--;
-               }
-               calcSinglePrice(inputNumber, price, priceInput);
-            })
+         function decreasing(inputNumber, price, priceInput) {
+            const inputField = document.getElementById(inputNumber);
+            if (inputField.value > 0) {
+               inputField.value--;
+            }
+            calcSinglePrice(inputNumber, price, priceInput);
          }
 
          function calcSinglePrice(inputNumber, price, priceInput) {
-            let inputFieldValue = inputNumber.value;
+            let inputFieldValue = document.getElementById(inputNumber).value;
             const parsePerPrice = price;
             const perPrice = parseFloat(parsePerPrice);
             let singlePrice = inputFieldValue * perPrice;
-            priceInput.innerText = singlePrice;
+            document.getElementById(priceInput).innerText = singlePrice;
             calcTotal('price-1', 'price-2', mainTax);
          }
 
-         function enterEvent(fieldId, button) {
-            const field = document.getElementById(fieldId)
-            field.addEventListener('keyup', function (e) {
-               if (e.keyCode === 13) {
-                  button.click();
-               }
-            })
-         }
+         // function enterEvent(fieldId) {
+         //    const field = document.getElementById(fieldId)
+         //    field.addEventListener('keyup', function (e) {
+         //       if (e.keyCode === 13) {
+         //          e.target.click();
+         //       }
+         //    })
+         // }
 
          function calcTotal(price1, price2, taxInput) {
             const parsePerPrice1 = document.getElementById(price1).innerText;
@@ -140,10 +126,6 @@
             totalField.innerText = subtotal + tax;
          }
 
-         increasing(btnPlus1);
-         decreasing(btnMinus1);
-         increasing(btnPlus2);
-         decreasing(btnMinus2);
          calcTotal('price-1', 'price-2', mainTax);
 
       </script>
