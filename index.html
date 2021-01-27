@@ -91,36 +91,36 @@
          let price2 = parseFloat(parsePrice2);
 
          btnPlus1.addEventListener('click', function () {
-            const input = this.parentNode.querySelector('input');
-            input.value++;
-            let priceInput = this.parentNode.parentNode.querySelector('h5 span');
-            calcSinglePrice(input, price1, priceInput);
+            increasing(price1, this);
          })
 
          btnPlus2.addEventListener('click', function () {
-            const input = this.parentNode.querySelector('input');
-            input.value++;
-            let priceInput = this.parentNode.parentNode.querySelector('h5 span');
-            calcSinglePrice(input, price2, priceInput);
+            increasing(price2, this);
          })
 
          btnMinus1.addEventListener('click', function () {
-            const input = this.parentNode.querySelector('input');
-            if (input.value > 0) {
-               input.value--;
-            }
-            let priceInput = this.parentNode.parentNode.querySelector('h5 span');
-            calcSinglePrice(input, price1, priceInput);
+            decreasing(price1, this);
          })
 
          btnMinus2.addEventListener('click', function () {
-            const input = this.parentNode.querySelector('input');
+            decreasing(price2, this);
+         })
+
+         function increasing(price, button) {
+            const input = button.parentNode.querySelector('input');
+            input.value++;
+            let priceInput = button.parentNode.parentNode.querySelector('h5 span');
+            calcSinglePrice(input, price, priceInput);
+         }
+
+         function decreasing(price, button) {
+            const input = button.parentNode.querySelector('input');
             if (input.value > 0) {
                input.value--;
             }
-            let priceInput = this.parentNode.parentNode.querySelector('h5 span');
-            calcSinglePrice(input, price2, priceInput);
-         })
+            let priceInput = button.parentNode.parentNode.querySelector('h5 span');
+            calcSinglePrice(input, price1, priceInput);
+         }
 
          function calcSinglePrice(input, price, priceInput) {
             let inputValue = parseInt(input.value);
@@ -130,16 +130,7 @@
             calcTotal(mainTax);
          }
 
-         // function enterEvent(fieldId, button) {
-         //    const field = document.getElementById(fieldId)
-         //    field.addEventListener('keyup', function (e) {
-         //       if (e.keyCode === 13) {
-         //          button.click();
-         //       }
-         //    })
-         // }
-
-         function itemsTotalPrice(itemClass) {
+         function subtotalPrice(itemClass) {
             const itemPrice = document.getElementsByClassName(itemClass);
             let price = 0;
             for (let i = 0; i < itemPrice.length; i++) {
@@ -152,23 +143,22 @@
          }
 
          function calcTotal(taxInput) {
-            let subtotal = itemsTotalPrice('item-price');
+            let subtotal = subtotalPrice('item-price');
             const tax = (subtotal * taxInput) / 100;
             document.getElementById('subtotal').innerText = subtotal;
             document.getElementById('tax').innerText = taxInput + '%';
             document.getElementById('total').innerText = subtotal + tax;
          }
 
-         // const buttons = document.getElementsByClassName('price-btn');
-         // for (let i = 0; i < buttons.length; i++) {
-         //    const button = buttons[i];
-         //    console.log(button, button.id);
-         //    if(button.id == )
+         // function enterEvent(fieldId, button) {
+         //    const field = document.getElementById(fieldId)
+         //    field.addEventListener('keyup', function (e) {
+         //       if (e.keyCode === 13) {
+         //          button.click();
+         //       }
+         //    })
          // }
-         // increasing(btnPlus1);
-         // decreasing(btnMinus1);
-         // increasing(btnPlus2);
-         // decreasing(btnMinus2);
+
          calcTotal(mainTax);
 
       </script>
